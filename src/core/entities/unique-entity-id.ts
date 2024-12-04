@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { createId } from "@paralleldrive/cuid2"
 
 export class UniqueEntityID {
   private value: string
@@ -12,7 +12,7 @@ export class UniqueEntityID {
   }
 
   constructor(value?: string) {
-    this.value = value ?? randomUUID()
+    this.value = value ?? createId()
   }
 
   public equals(id: UniqueEntityID) {
