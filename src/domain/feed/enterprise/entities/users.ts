@@ -23,14 +23,16 @@ export class User extends Entity<UserProps> {
   }
 
   validate() {
-    if(this.name.length >=14) {
+    if (this.name.length >= 14) {
       throw new ValidationError('name not must be greater 14 characters')
     }
 
     const validateNameContainsOnlyAlfhaNumerics = /^[a-zA-Z0-9]+$/
 
-    if(!validateNameContainsOnlyAlfhaNumerics.test((this.name))) {
-      throw new ValidationError("The name must contain only alphanumeric characters")
+    if (!validateNameContainsOnlyAlfhaNumerics.test(this.name)) {
+      throw new ValidationError(
+        'The name must contain only alphanumeric characters',
+      )
     }
   }
 }

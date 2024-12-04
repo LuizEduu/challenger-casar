@@ -1,4 +1,4 @@
-import { createId } from "@paralleldrive/cuid2"
+import { createId } from '@paralleldrive/cuid2'
 
 export class UniqueEntityID {
   private value: string

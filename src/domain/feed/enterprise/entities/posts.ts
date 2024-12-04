@@ -1,6 +1,5 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ValidationError } from '@/core/errors/validation-error'
 
 export interface PostProps {
   content: string
@@ -31,6 +30,4 @@ export class Post extends Entity<PostProps> {
 
     return post
   }
-
-  
 }
