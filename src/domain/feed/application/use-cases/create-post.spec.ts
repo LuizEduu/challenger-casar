@@ -52,7 +52,7 @@ describe('create post use case', async () => {
     expect(result.value).toBeInstanceOf(ValidationError)
   })
 
-  it.only('should throws PostsMaxQuantityError if the user sends more than 5 posts in a day', async () => {
+  it('should throws PostsMaxQuantityError if the user sends more than 5 posts in a day', async () => {
     const user = makeUser()
 
     for (let i = 0; i < 5; i++) {

@@ -30,5 +30,5 @@ export function makePost(
     id,
   )
 
-  return post.value as Post
+  return post
 }

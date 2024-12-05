@@ -1,7 +1,5 @@
-import { Either, left, right } from '@/core/either'
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ValidationError } from '@/core/errors/validation-error'
 import { Optional } from '@/core/types/optional'
 
 export interface PostProps {
@@ -31,7 +29,7 @@ export class Post extends Entity<PostProps> {
   static create(
     props: Optional<PostProps, 'originalPostId' | 'createdAt'>,
     id?: UniqueEntityID,
-  ): Either<ValidationError, Post> {
+  ): Post {
     const post = new Post(
       {
         ...props,
@@ -41,20 +39,23 @@ export class Post extends Entity<PostProps> {
       id,
     )
 
-    const validationError = post.validate()
-
-    if (validationError) {
-      return left(validationError)
-    }
-
-    return right(post)
+    return post
   }
 
-  validate() {
+  validate(): {
+    hasError: boolean
+    error: string
+  } {
     if (this.props.content.length > 200) {
-      return new ValidationError(
-        'post content not must be grater 200 characters',
-      )
+      return {
+        hasError: true,
+        error: 'post content not must be grater 200 characters',
+      }
+    }
+
+    return {
+      hasError: false,
+      error: '',
     }
   }
 }
