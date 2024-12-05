@@ -1,17 +1,26 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "_version": "22.0.0",
-
   "compilerOptions": {
-    "lib": ["es2023"],
-    "module": "node16",
+    "module": "commonjs",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "target": "es2022",
-    "strict": true,
-    "esModuleInterop": true,
+    "lib": ["es2023"],
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
     "skipLibCheck": true,
-    "moduleResolution": "node16",
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": ["./src/*"]
     },
+    "types": ["vitest/globals", "multer"]
   }
 }

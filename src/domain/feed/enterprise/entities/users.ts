@@ -1,6 +1,7 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ValidationError } from '@/core/errors/validation-error'
+import { Optional } from '@/core/types/optional'
 
 export interface UserProps {
   name: string
@@ -16,23 +17,29 @@ export class User extends Entity<UserProps> {
     return this.props.createdAt.toLocaleString()
   }
 
-  static create(props: UserProps, id?: UniqueEntityID) {
-    const user = new User(props, id)
+  static create(props: Optional<UserProps, 'createdAt'>, id?: UniqueEntityID) {
+    const user = new User(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+      },
+      id,
+    )
+
+    user.validate()
 
     return user
   }
 
   validate() {
-    if (this.name.length >= 14) {
-      throw new ValidationError('name not must be greater 14 characters')
+    if (this.props.name.length > 14) {
+      throw new ValidationError('name not must be grater then 14 characters')
     }
 
-    const validateNameContainsOnlyAlfhaNumerics = /^[a-zA-Z0-9]+$/
+    const validateNameIsAlphaNumeric = /^[a-zA-Z0-9]+$/
 
-    if (!validateNameContainsOnlyAlfhaNumerics.test(this.name)) {
-      throw new ValidationError(
-        'The name must contain only alphanumeric characters',
-      )
+    if (!validateNameIsAlphaNumeric.test(this.props.name)) {
+      throw new ValidationError('name must be only alpha numeric characters')
     }
   }
 }
