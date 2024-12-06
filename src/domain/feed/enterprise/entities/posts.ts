@@ -23,7 +23,7 @@ export class Post extends Entity<PostProps> {
   }
 
   get createdAt() {
-    return this.props.createdAt.toLocaleString()
+    return this.props.createdAt
   }
 
   static create(

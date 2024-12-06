@@ -1,3 +1,4 @@
+import { PaginationParams } from '@/core/repositories/pagination-params'
 import { PostsRepository } from '@/domain/feed/application/repositories/posts-repository'
 import { Post } from '@/domain/feed/enterprise/entities/posts'
 import dayjs from 'dayjs'
@@ -32,5 +33,15 @@ export class InMemoryPostsRepository implements PostsRepository {
     )
 
     return post ?? null
+  }
+
+  async fetchRecentsPosts({ page }: PaginationParams): Promise<Post[]> {
+    return this.inMemoryPosts
+      .sort((a, b) => {
+        const dataA = dayjs(a.createdAt)
+        const dataB = dayjs(b.createdAt)
+        return dataB.isAfter(dataA) ? 1 : -1
+      })
+      .slice((page - 1) * 10, page * 10)
   }
 }
