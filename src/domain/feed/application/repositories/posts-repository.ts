@@ -6,4 +6,8 @@ export abstract class PostsRepository {
   abstract countByOwnerIdInDay(ownerId: string): Promise<number>
   abstract findById(postId: string): Promise<Post | null>
   abstract fetchRecentsPosts({ page }: PaginationParams): Promise<Post[]>
+  abstract fetchByUsersIds(
+    usersIds: string[],
+    { page }: PaginationParams,
+  ): Promise<Post[]>
 }

@@ -3,7 +3,7 @@ import { PostsRepository } from '../repositories/posts-repository'
 import { RepostRequest } from '../dto/repost-request'
 import { RepostResponse } from '../dto/repost-response'
 import { left, right } from '@/core/either'
-import { ResourceNotFound } from '@/core/errors/resource-not-found'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { Post } from '../../enterprise/entities/posts'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { PostsMaxQuantityError } from '@/core/errors/posts-max-quantity-error'
@@ -21,7 +21,7 @@ export class RepostUseCase {
     const post = await this.postsRepository.findById(originalPostId)
 
     if (!post) {
-      return left(new ResourceNotFound())
+      return left(new ResourceNotFoundError())
     }
 
     const userPosts = await this.postsRepository.countByOwnerIdInDay(ownerId)

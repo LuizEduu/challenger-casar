@@ -4,7 +4,7 @@ import { makeUser } from '@/test/factories/make-user'
 import { makePost } from '@/test/factories/make-post'
 import { ValidationError } from '@/core/errors/validation-error'
 import { PostsMaxQuantityError } from '@/core/errors/posts-max-quantity-error'
-import { ResourceNotFound } from '@/core/errors/resource-not-found'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 
 let inMemoryPostsRepository: InMemoryPostsRepository
 let sut: RepostUseCase
@@ -111,6 +111,6 @@ describe('repost use case', () => {
 
     expect(repost.isRight()).toBe(false)
     expect(repost.isLeft()).toBe(true)
-    expect(repost.value).toBeInstanceOf(ResourceNotFound)
+    expect(repost.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })
