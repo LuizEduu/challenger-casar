@@ -5,6 +5,7 @@ import { InMemoryPostsRepository } from '@/test/repositories/in-memory-posts-rep
 import { makeUser } from '@/test/factories/make-user'
 import { makeFollower } from '@/test/factories/make-follower'
 import { UserNotFoundError } from '@/core/errors/user-not-found-error'
+import { NotAllowedError } from '@/core/errors/not-allowed-error'
 
 let usersFollowersRepository: InMemoryUsersFollowersRepository
 let postsRepository: InMemoryPostsRepository
@@ -100,5 +101,21 @@ describe('follower or unfollower use case', () => {
     expect(result.isLeft()).toBe(true)
     expect(result.isRight()).toBe(false)
     result.isRight() && expect(result.value).toBeInstanceOf(UserNotFoundError)
+  })
+
+  it('should be able to throws NotAllowedError when user follower or unfollower youselff', async () => {
+    const user = makeUser()
+
+    usersRepository.users.push(user)
+
+    const result = await sut.execute({
+      userId: user.id.toString(),
+      followerUserId: user.id.toString(),
+      follower: true,
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.isRight()).toBe(false)
+    result.isRight() && expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })

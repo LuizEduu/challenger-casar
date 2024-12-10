@@ -6,6 +6,7 @@ import { Followers } from '../../enterprise/entities/followers'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { FollowerOrUnfollowerResponse } from '../dto/follower-or-unfollower-response'
 import { left, right } from '@/core/either'
+import { NotAllowedError } from '@/core/errors/not-allowed-error'
 
 export class FollowerOrUnfollowerUseCase {
   constructor(
@@ -18,6 +19,9 @@ export class FollowerOrUnfollowerUseCase {
     followerUserId,
     follower,
   }: FollowerOrUnfollowerRequest): Promise<FollowerOrUnfollowerResponse> {
+    if (userId === followerUserId) {
+      return left(new NotAllowedError())
+    }
     const userExists = await this.usersRepository.findById(userId)
 
     if (!userExists) {
