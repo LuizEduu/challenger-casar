@@ -17,7 +17,7 @@ import { HttpPostsPresenter } from '../presenters/http-posts-presenter'
 
 const createPostBodySchema = z.object({
   content: z.string(),
-  ownerId: z.string().email(),
+  ownerId: z.string(),
 })
 
 type CreatePostBodySchema = z.infer<typeof createPostBodySchema>

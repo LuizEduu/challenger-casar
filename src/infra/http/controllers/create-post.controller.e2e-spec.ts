@@ -21,19 +21,21 @@ describe('Create Account (E2E)', () => {
     await app.init()
   })
 
+  afterAll(async () => {
+    await app.close()
+  })
+
   test('[POST] /posts', async () => {
     const createdUser = await userFactory.makePrismaUser({
-      name: 'Jhon Doe',
+      name: 'JhonDoe',
     })
 
     const body = {
-      content: 'post create to e2e test',
+      content: 'post create to integration test',
       ownerId: createdUser.id.toString(),
     }
 
-    const response = await request(app.getHttpServer())
-      .post('/posts')
-      .send(body)
+    const response = await request('http://localhost').post('/posts').send(body)
 
     expect(response.statusCode).toEqual(201)
     expect(response.body).toEqual(

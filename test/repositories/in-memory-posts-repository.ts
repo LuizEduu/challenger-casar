@@ -10,10 +10,8 @@ export class InMemoryPostsRepository implements PostsRepository {
     this.inMemoryPosts = []
   }
 
-  async create(post: Post): Promise<Post> {
+  async create(post: Post): Promise<void> {
     this.inMemoryPosts.push(post)
-
-    return post
   }
 
   async countByOwnerIdInDay(ownerId: string): Promise<number> {

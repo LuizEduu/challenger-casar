@@ -11,14 +11,15 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/infra/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
-    "test:debug": "vitest --inspect-brk --inspect --logHeapUsage --threads=false",
+    "test:debug": "vitest --inspect-brk --no-file-parallelism --logHeapUsage",
     "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
-    "test:e2e:watch": "vitest --config ./vitest.config.e2e.ts"
+    "test:e2e:watch": "vitest --config ./vitest.config.e2e.ts",
+    "test:e2e:debug": "vitest run --config ./vitest.config.e2e.ts --inspect-brk --no-file-parallelism --logHeapUsage"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

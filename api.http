@@ -1,0 +1,11 @@
+@baseUrl = http://localhost:8080
+
+# @name create_post
+POST {{baseUrl}}/posts
+Content-Type: application/json
+
+{
+    "content": "post test",
+    "ownerId": "12345"
+}
+###
