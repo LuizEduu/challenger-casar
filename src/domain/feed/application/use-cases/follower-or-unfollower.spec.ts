@@ -103,7 +103,7 @@ describe('follower or unfollower use case', () => {
     result.isRight() && expect(result.value).toBeInstanceOf(UserNotFoundError)
   })
 
-  it('should be able to throws NotAllowedError when user follower or unfollower youselff', async () => {
+  it('should be able to throws NotAllowedError when user follower or unfollower yourself', async () => {
     const user = makeUser()
 
     usersRepository.users.push(user)
