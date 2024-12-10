@@ -1,9 +1,9 @@
-import { InMemoryPostsRepository } from '@/test/repositories/in-memory-posts-repository'
+import { InMemoryPostsRepository } from 'test/repositories/in-memory-posts-repository'
 import { CreatePostUseCase } from './create-post'
 import { faker } from '@faker-js/faker'
-import { makeUser } from '@/test/factories/make-user'
+import { makeUser } from 'test/factories/make-user'
 import { ValidationError } from '@/core/errors/validation-error'
-import { makePost } from '@/test/factories/make-post'
+import { makePost } from 'test/factories/make-post'
 import { PostsMaxQuantityError } from '@/core/errors/posts-max-quantity-error'
 
 let inMemoryPostsRepository: InMemoryPostsRepository

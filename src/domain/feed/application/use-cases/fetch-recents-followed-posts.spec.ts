@@ -1,11 +1,11 @@
-import { InMemoryUsersRepository } from '@/test/repositories/in-memory-users-repository'
+import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { FetchRecentsFollowedPostsUseCase } from './fetch-recents-followed-posts'
-import { InMemoryUsersFollowersRepository } from '@/test/repositories/in-memory-users-followers-repository'
-import { InMemoryPostsRepository } from '@/test/repositories/in-memory-posts-repository'
-import { makeUser } from '@/test/factories/make-user'
+import { InMemoryUsersFollowersRepository } from 'test/repositories/in-memory-users-followers-repository'
+import { InMemoryPostsRepository } from 'test/repositories/in-memory-posts-repository'
+import { makeUser } from 'test/factories/make-user'
 import dayjs from 'dayjs'
-import { makePost } from '@/test/factories/make-post'
-import { makeFollower } from '@/test/factories/make-follower'
+import { makePost } from 'test/factories/make-post'
+import { makeFollower } from 'test/factories/make-follower'
 import { UserNotFoundError } from '@/core/errors/user-not-found-error'
 
 let inMemoryUsersRepository: InMemoryUsersRepository

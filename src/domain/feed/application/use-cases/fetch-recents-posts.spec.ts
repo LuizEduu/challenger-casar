@@ -1,6 +1,6 @@
-import { InMemoryPostsRepository } from '@/test/repositories/in-memory-posts-repository'
+import { InMemoryPostsRepository } from 'test/repositories/in-memory-posts-repository'
 import { FetchRecentPostsUseCase } from './fetch-recents-posts'
-import { makePost } from '@/test/factories/make-post'
+import { makePost } from 'test/factories/make-post'
 import dayjs from 'dayjs'
 
 let inMemoryPostsRepository: InMemoryPostsRepository

@@ -4,6 +4,7 @@ import { envSchema } from './env/env'
 import { HttpModule } from './http/http.module'
 import { EnvService } from './env/env.service'
 import { EnvModule } from './env/env.module'
+import { DatabaseModule } from './database/database.module'
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { EnvModule } from './env/env.module'
     }),
     HttpModule,
     EnvModule,
+    DatabaseModule,
   ],
   providers: [EnvService],
 })

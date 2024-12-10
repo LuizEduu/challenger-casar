@@ -1,10 +1,10 @@
-import { InMemoryUsersRepository } from '@/test/repositories/in-memory-users-repository'
+import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { GetUserUseCase } from './get-user'
-import { InMemoryUsersFollowersRepository } from '@/test/repositories/in-memory-users-followers-repository'
-import { InMemoryPostsRepository } from '@/test/repositories/in-memory-posts-repository'
-import { makeUser } from '@/test/factories/make-user'
-import { makeFollower } from '@/test/factories/make-follower'
-import { makePost } from '@/test/factories/make-post'
+import { InMemoryUsersFollowersRepository } from 'test/repositories/in-memory-users-followers-repository'
+import { InMemoryPostsRepository } from 'test/repositories/in-memory-posts-repository'
+import { makeUser } from 'test/factories/make-user'
+import { makeFollower } from 'test/factories/make-follower'
+import { makePost } from 'test/factories/make-post'
 
 let postsRepository: InMemoryPostsRepository
 let usersFollowersRepository: InMemoryUsersFollowersRepository

@@ -16,7 +16,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
-    "test:debug": "vitest --inspect-brk --inspect --logHeapUsage --threads=false"
+    "test:debug": "vitest --inspect-brk --inspect --logHeapUsage --threads=false",
+    "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
+    "test:e2e:watch": "vitest --config ./vitest.config.e2e.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -26,6 +28,7 @@
     "@paralleldrive/cuid2": "^2.2.2",
     "@prisma/client": "^6.0.1",
     "dayjs": "^1.11.13",
+    "dotenv": "^16.4.7",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "zod": "^3.24.0",
