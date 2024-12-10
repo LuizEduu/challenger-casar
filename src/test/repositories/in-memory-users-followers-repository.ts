@@ -15,4 +15,12 @@ export class InMemoryUsersFollowersRepository
       (userFollowers) => userFollowers.followerId.toString() === id,
     )
   }
+
+  async fetchFollowedsByUserIdWithFollowedsInfo(
+    userId: string,
+  ): Promise<Followers[]> {
+    return this.usersFollowers.filter(
+      (userFollower) => userFollower.followerId.toString() === userId,
+    )
+  }
 }

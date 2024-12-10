@@ -10,4 +10,6 @@ export abstract class PostsRepository {
     usersIds: string[],
     { page }: PaginationParams,
   ): Promise<Post[]>
+
+  abstract countPostsByOwnerId(userId: string): Promise<number>
 }

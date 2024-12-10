@@ -5,7 +5,7 @@ import { Optional } from '@/core/types/optional'
 
 export interface UserProps {
   name: string
-  createdAt: Date | string
+  createdAt: Date
 }
 
 export class User extends Entity<UserProps> {
@@ -14,7 +14,7 @@ export class User extends Entity<UserProps> {
   }
 
   get createdAt() {
-    return this.props.createdAt.toLocaleString()
+    return this.props.createdAt
   }
 
   static create(props: Optional<UserProps, 'createdAt'>, id?: UniqueEntityID) {

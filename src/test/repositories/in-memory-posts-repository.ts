@@ -58,4 +58,10 @@ export class InMemoryPostsRepository implements PostsRepository {
       })
       .slice((page - 1) * 10, page * 10)
   }
+
+  async countPostsByOwnerId(userId: string): Promise<number> {
+    return this.inMemoryPosts.filter(
+      (post) => post.ownerId.toString() === userId,
+    ).length
+  }
 }
