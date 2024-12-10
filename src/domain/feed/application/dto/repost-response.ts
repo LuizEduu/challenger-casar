@@ -1,5 +1,5 @@
 import { Either } from '@/core/either'
 import { Post } from '../../enterprise/entities/posts'
-import { ResourceNotFound } from '@/core/errors/resource-not-found'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 
-export type RepostResponse = Either<ResourceNotFound, Post>
+export type RepostResponse = Either<ResourceNotFoundError, Post>
