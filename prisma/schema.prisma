@@ -14,6 +14,9 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   posts     Post[]
 
+  follower Followers[] @relation("follower_user_foreign")
+  followed Followers[] @relation("followed_user_foreign")
+
   @@map("users")
 }
 
@@ -26,4 +29,14 @@ model Post {
   owner          User     @relation(fields: [ownerId], references: [id])
 
   @@map("posts")
+}
+
+model Followers {
+  id         String   @id @default(cuid())
+  followerId String   @map("follower_id")
+  followedId String   @map("followed_id")
+  followedAt DateTime @default(now()) @map("followed_at")
+
+  follower User @relation(fields: [followerId], references: [id], name: "follower_user_foreign")
+  followed User @relation(fields: [followedId], references: [id], name: "followed_user_foreign")
 }

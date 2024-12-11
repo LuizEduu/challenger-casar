@@ -7,7 +7,9 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { FollowerOrUnfollowerResponse } from '../dto/follower-or-unfollower-response'
 import { left, right } from '@/core/either'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class FollowerOrUnfollowerUseCase {
   constructor(
     private readonly usersRepository: UsersRepository,
