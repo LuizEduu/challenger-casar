@@ -4,7 +4,7 @@ import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 
-describe('HealthController (E2E)', () => {
+describe('Health check (E2E)', () => {
   let app: INestApplication
 
   beforeAll(async () => {

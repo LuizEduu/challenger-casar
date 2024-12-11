@@ -6,6 +6,7 @@ export class HttpPostsPresenter {
       id: post.id.toString(),
       content: post.content,
       ownerId: post.ownerId.toString(),
+      originalPostId: post.originalPostId?.toString() ?? null,
       createdAt: post.createdAt,
     }
   }

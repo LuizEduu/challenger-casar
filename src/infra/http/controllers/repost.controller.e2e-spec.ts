@@ -6,7 +6,7 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { PostFactory } from 'test/factories/make-post'
 
-describe('Create Account (E2E)', () => {
+describe('Repost (E2E)', () => {
   let app: INestApplication
   let userFactory: UserFactory
   let postFactory: PostFactory
@@ -28,51 +28,71 @@ describe('Create Account (E2E)', () => {
     await app.close()
   })
 
-  test('[POST] /posts', async () => {
+  test('[POST] /posts/repost', async () => {
     const createdUser = await userFactory.makePrismaUser({
       name: 'JhonDoe',
     })
 
+    const post = await postFactory.makePrismaPost({
+      content: 'post created to repost',
+      ownerId: createdUser.id,
+      originalPostId: null,
+    })
+
+    const userToRepost = await userFactory.makePrismaUser({
+      name: 'repostUser',
+    })
+
     const body = {
-      content: 'post create to integration test',
-      ownerId: createdUser.id.toString(),
+      ownerId: userToRepost.id.toString(),
+      originalPostId: post.id.toString(),
     }
 
     const response = await request(app.getHttpServer())
-      .post('/posts')
+      .post('/posts/repost')
       .send(body)
 
     expect(response.statusCode).toEqual(201)
     expect(response.body).toEqual({
       post: {
         id: expect.any(String),
-        content: body.content,
+        content: post.content,
         ownerId: body.ownerId,
-        originalPostId: null,
+        originalPostId: post.id.toString(),
         createdAt: expect.any(String),
       },
     })
   })
 
-  test('[POST] /posts not create a new post if user makes 5 more posts on the same day', async () => {
+  test('[POST] /posts/repost not repost if user makes 5 more posts on the same day', async () => {
     const createdUser = await userFactory.makePrismaUser({
       name: 'JhonDoe',
     })
 
+    const post = await postFactory.makePrismaPost({
+      content: 'post created to repost',
+      ownerId: createdUser.id,
+      originalPostId: null,
+    })
+
+    const userToRepost = await userFactory.makePrismaUser({
+      name: 'repostUser',
+    })
+
     for (let i = 0; i < 5; i++) {
       await postFactory.makePrismaPost({
-        ownerId: createdUser.id,
+        ownerId: userToRepost.id,
         content: 'posts criados anteriormente',
       })
     }
 
     const body = {
-      content: 'post create to integration test',
-      ownerId: createdUser.id.toString(),
+      ownerId: userToRepost.id.toString(),
+      originalPostId: post.id.toString(),
     }
 
     const response = await request(app.getHttpServer())
-      .post('/posts')
+      .post('/posts/repost')
       .send(body)
 
     expect(response.statusCode).toEqual(422)
