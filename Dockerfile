@@ -12,7 +12,7 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN pnpm prisma generate
+RUN npx prisma generate
 
 FROM node:22-alpine
 
@@ -31,4 +31,4 @@ USER node
 
 EXPOSE 3000
 
-CMD ["/wait-for-it.sh", "postgres:5432", "--", "pnpm", "start:dev"]
+CMD ["/bin/sh", "-c", "/wait-for-it.sh postgres:5432 -- pnpm prisma migrate dev && pnpm start:dev"]

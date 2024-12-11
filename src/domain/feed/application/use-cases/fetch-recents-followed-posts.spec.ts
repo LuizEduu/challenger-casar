@@ -15,9 +15,12 @@ let sut: FetchRecentsFollowedPostsUseCase
 
 describe('Fetch recents followed posts use case', () => {
   beforeEach(() => {
-    inMemoryUsersRepository = new InMemoryUsersRepository()
     inMemoryUsersFollowersRepository = new InMemoryUsersFollowersRepository()
     inMemoryPostsRepository = new InMemoryPostsRepository()
+    inMemoryUsersRepository = new InMemoryUsersRepository(
+      inMemoryUsersFollowersRepository,
+      inMemoryPostsRepository,
+    )
     sut = new FetchRecentsFollowedPostsUseCase(
       inMemoryUsersRepository,
       inMemoryUsersFollowersRepository,

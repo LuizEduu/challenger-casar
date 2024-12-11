@@ -5,7 +5,7 @@ export class HttpPostsPresenter {
     return {
       id: post.id.toString(),
       content: post.content,
-      ownerId: post.ownerId,
+      ownerId: post.ownerId.toString(),
       createdAt: post.createdAt,
     }
   }

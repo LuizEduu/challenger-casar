@@ -35,16 +35,18 @@ describe('Create Account (E2E)', () => {
       ownerId: createdUser.id.toString(),
     }
 
-    const response = await request('http://localhost').post('/posts').send(body)
+    const response = await request(app.getHttpServer())
+      .post('/posts')
+      .send(body)
 
     expect(response.statusCode).toEqual(201)
-    expect(response.body).toEqual(
-      expect.objectContaining({
+    expect(response.body).toEqual({
+      post: {
         id: expect.any(String),
         content: body.content,
         ownerId: body.ownerId,
         createdAt: expect.any(String),
-      }),
-    )
+      },
+    })
   })
 })

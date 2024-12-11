@@ -32,12 +32,12 @@ export class UserFactory {
   constructor(private readonly prismaService: PrismaService) {}
 
   async makePrismaUser(data: Partial<UserProps> = {}): Promise<User> {
-    const student = makeUser(data)
+    const user = makeUser(data)
 
     await this.prismaService.user.create({
-      data: PrismaUserMapper.toPrisma(student),
+      data: PrismaUserMapper.toPrisma(user),
     })
 
-    return student
+    return user
   }
 }

@@ -23,9 +23,6 @@ function generateUniqueDatabaseURL(schemaId: string) {
 
   const url = new URL(env.DATABASE_URL)
 
-  // Alterar o host para 'postgres' durante os testes
-  url.hostname = 'localhost'
-
   url.searchParams.set('schema', schemaId)
 
   return url.toString()
