@@ -1,6 +1,9 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Post } from '@/domain/feed/enterprise/entities/posts'
+import { Post, PostProps } from '@/domain/feed/enterprise/entities/posts'
+import { PrismaPostMapper } from '@/infra/database/prisma/mappers/prisma-post-mapper'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { faker } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
 
 /**
  * @type {object}
@@ -31,4 +34,19 @@ export function makePost(
   )
 
   return post
+}
+
+@Injectable()
+export class PostFactory {
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async makePrismaPost(data: Partial<PostProps> = {}): Promise<Post> {
+    const post = makePost(data)
+
+    await this.prismaService.post.create({
+      data: PrismaPostMapper.toPrisma(post),
+    })
+
+    return post
+  }
 }
