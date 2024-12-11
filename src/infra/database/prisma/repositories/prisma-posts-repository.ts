@@ -57,7 +57,7 @@ export class PrismaPostsRepository implements PostsRepository {
   ): Promise<Post[]> {
     const posts = await this.prisma.post.findMany({
       orderBy: {
-        createdAt: 'asc',
+        createdAt: 'desc',
       },
       take: 10,
       skip: (page - 1) * 10,

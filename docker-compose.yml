@@ -13,7 +13,7 @@ services:
     networks:
       - app_network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]  # Acessar o serviço nodejs1 diretamente
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s
       retries: 3
       start_period: 10s
@@ -30,7 +30,7 @@ services:
       - DATABASE_URL=postgresql://docker:docker@postgres:5432/thoughts?schema=public
     depends_on:
       postgres:
-        condition: service_healthy  # O nodejs1 aguarda até que o postgres esteja saudável
+        condition: service_healthy  # aguarda até que o postgres esteja saudável
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]  # Verificar a saúde do nodejs1
       interval: 30s

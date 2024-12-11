@@ -28,7 +28,13 @@ export class PrismaUsersFollowersRepository
   }
 
   async fetchByUserId(id: string): Promise<Followers[]> {
-    throw new Error('unplemented method')
+    const followers = await this.prisma.followers.findMany({
+      where: {
+        followerId: id,
+      },
+    })
+
+    return followers.map(PrismaUserFollowerMapper.toDomain)
   }
 
   async fetchFollowedsByUserIdWithFollowedsInfo(

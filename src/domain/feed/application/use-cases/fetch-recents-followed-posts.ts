@@ -5,7 +5,9 @@ import { PostsRepository } from '../repositories/posts-repository'
 import { left, right } from '@/core/either'
 import { UsersRepository } from '../repositories/users-repository'
 import { UsersFollowersRepository } from '../repositories/users-followers-repository'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class FetchRecentsFollowedPostsUseCase {
   constructor(
     private readonly usersRepository: UsersRepository,

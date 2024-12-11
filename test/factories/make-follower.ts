@@ -1,5 +1,11 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Followers } from '@/domain/feed/enterprise/entities/followers'
+import {
+  Followers,
+  FollowersProps,
+} from '@/domain/feed/enterprise/entities/followers'
+import { PrismaUserFollowerMapper } from '@/infra/database/prisma/mappers/prisma-user-follower-mapper'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
 
 /**
  * @type {object}
@@ -25,4 +31,21 @@ export function makeFollower(
   )
 
   return follower
+}
+
+@Injectable()
+export class FollowersFactory {
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async makePrismaFollowers(
+    data: Partial<FollowersProps> = {},
+  ): Promise<Followers> {
+    const follower = makeFollower(data)
+
+    await this.prismaService.followers.create({
+      data: PrismaUserFollowerMapper.toPrisma(follower),
+    })
+
+    return follower
+  }
 }
