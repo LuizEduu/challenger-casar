@@ -22,6 +22,55 @@ export class PrismaUsersRepository implements UsersRepository {
   async findByIdUserWithFollowersAndPosts(
     userId: string,
   ): Promise<UserWithFollowersAndPosts | null> {
-    throw new Error('uneplement method')
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        name: true,
+        createdAt: true,
+      },
+    })
+
+    if (!user) {
+      return null
+    }
+
+    const followeds = await this.prisma.followers.findMany({
+      where: {
+        followerId: userId,
+      },
+      include: {
+        followed: true,
+      },
+    })
+
+    const followers = await this.prisma.followers.findMany({
+      where: {
+        followedId: userId,
+      },
+      include: {
+        follower: true,
+      },
+    })
+
+    const [followedsCount, followersCount, postsCount] = await Promise.all([
+      this.prisma.followers.count({ where: { followerId: userId } }),
+      this.prisma.followers.count({ where: { followedId: userId } }),
+      this.prisma.post.count({ where: { ownerId: userId } }),
+    ])
+
+    const userWithFollowersAndFollowedsAndCounts = {
+      ...user,
+      followeds: followeds.map((f) => f.followed),
+      followers: followers.map((f) => f.follower),
+      followedsCount,
+      followersCount,
+      postsCount,
+    }
+
+    return PrismaUserMapper.toDomainUserWithFollowersAndPosts(
+      userWithFollowersAndFollowedsAndCounts,
+    )
   }
 }

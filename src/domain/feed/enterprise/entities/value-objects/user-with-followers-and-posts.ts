@@ -10,7 +10,7 @@ export interface UserWithFollowersAndPostsProps {
   name: string
   ingressedAt: Date | string
   numberOfFollowers: number
-  numberOfFollowed: number
+  numberOfFolloweds: number
   numberOfPosts: number
   followedUsers: followedUsers
 }
@@ -40,12 +40,12 @@ export class UserWithFollowersAndPosts extends ValueObject<UserWithFollowersAndP
     this.props.numberOfFollowers = numberOfFollowers
   }
 
-  get numberOfFollowed() {
-    return this.props.numberOfFollowed
+  get numberOfFolloweds() {
+    return this.props.numberOfFolloweds
   }
 
-  set numberOfFollowed(numberOfFollowed: number) {
-    this.props.numberOfFollowed = numberOfFollowed
+  set numberOfFolloweds(numberOfFolloweds: number) {
+    this.props.numberOfFolloweds = numberOfFolloweds
   }
 
   get numberOfPosts() {

@@ -23,7 +23,7 @@ export function makeFollower(
 ): Followers {
   const follower = Followers.create(
     {
-      followerId: override.followedId ?? new UniqueEntityID(),
+      followerId: override.followerId ?? new UniqueEntityID(),
       followedId: override.followedId ?? new UniqueEntityID(),
       ...override,
     },

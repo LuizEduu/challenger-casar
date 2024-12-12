@@ -3,7 +3,9 @@ import { GetUserRequest } from '../dto/get-user-request'
 import { UsersRepository } from '../repositories/users-repository'
 import { GetUserResponse } from '../dto/get-user-response'
 import { left, right } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class GetUserUseCase {
   constructor(private readonly usersRepository: UsersRepository) {}
 

@@ -12,10 +12,10 @@ model User {
   id        String   @id @default(cuid())
   name      String
   createdAt DateTime @default(now()) @map("created_at")
-  posts     Post[]
 
-  follower Followers[] @relation("follower_user_foreign")
-  followed Followers[] @relation("followed_user_foreign")
+  posts     Post[]
+  followers Followers[] @relation("follower_user_foreign")
+  followeds Followers[] @relation("followed_user_foreign")
 
   @@map("users")
 }
@@ -39,4 +39,6 @@ model Followers {
 
   follower User @relation(fields: [followerId], references: [id], name: "follower_user_foreign")
   followed User @relation(fields: [followedId], references: [id], name: "followed_user_foreign")
+
+  @@map("followers")
 }
