@@ -5,13 +5,18 @@ import { makePost } from 'test/factories/make-post'
 import { ValidationError } from '@/core/errors/validation-error'
 import { PostsMaxQuantityError } from '@/core/errors/posts-max-quantity-error'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
+import { InMemoryCommentsRepository } from 'test/repositories/in-memory-comments-repository'
 
 let inMemoryPostsRepository: InMemoryPostsRepository
+let inMemoryCommentsRepository: InMemoryCommentsRepository
 let sut: RepostUseCase
 
 describe('repost use case', () => {
   beforeEach(() => {
-    inMemoryPostsRepository = new InMemoryPostsRepository()
+    inMemoryCommentsRepository = new InMemoryCommentsRepository()
+    inMemoryPostsRepository = new InMemoryPostsRepository(
+      inMemoryCommentsRepository,
+    )
     sut = new RepostUseCase(inMemoryPostsRepository)
   })
 
@@ -112,5 +117,43 @@ describe('repost use case', () => {
     expect(repost.isRight()).toBe(false)
     expect(repost.isLeft()).toBe(true)
     expect(repost.value).toBeInstanceOf(ResourceNotFoundError)
+  })
+
+  it('should be able to repost another user post with comment', async () => {
+    const ownerToOriginalPost = makeUser()
+    const userToRepost = makeUser()
+
+    const originalPost = makePost({
+      ownerId: ownerToOriginalPost.id,
+      content: 'original post content',
+      comment: null,
+    })
+
+    await inMemoryPostsRepository.create(originalPost)
+
+    const repost = await sut.execute({
+      originalPostId: originalPost.id.toString(),
+      ownerId: userToRepost.id.toString(),
+      comment: 'comentário no repost',
+    })
+
+    expect(repost.isLeft()).toBe(false)
+    expect(repost.isRight()).toBe(true)
+    if (repost.isRight()) {
+      expect(repost.value.content).toEqual(originalPost.content)
+      expect(repost.value.originalPostId?.toString()).toEqual(
+        originalPost.id.toString(),
+      )
+      expect(repost.value.ownerId.toString()).toEqual(
+        userToRepost.id.toString(),
+      )
+      expect(inMemoryCommentsRepository.comments).toHaveLength(1)
+      expect(inMemoryCommentsRepository.comments[0].postId.toString()).toEqual(
+        repost.value.id.toString(),
+      )
+      expect(inMemoryCommentsRepository.comments[0].content).toEqual(
+        'comentário no repost',
+      )
+    }
   })
 })
