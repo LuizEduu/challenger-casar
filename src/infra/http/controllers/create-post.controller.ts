@@ -16,9 +16,9 @@ import { ValidationError } from 'zod-validation-error'
 import { HttpPostsPresenter } from '../presenters/http-posts-presenter'
 
 const createPostBodySchema = z.object({
-  content: z.string(),
+  content: z.string().max(200),
   ownerId: z.string(),
-  comment: z.string().optional(),
+  comment: z.string().max(200).optional(),
 })
 
 type CreatePostBodySchema = z.infer<typeof createPostBodySchema>

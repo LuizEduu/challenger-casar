@@ -18,8 +18,9 @@ import { RepostUseCase } from '@/domain/feed/application/use-cases/repost'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 
 const repostBodySchema = z.object({
-  ownerId: z.string(),
+  ownerId: z.string().max(200),
   originalPostId: z.string(),
+  comment: z.string().max(200).optional(),
 })
 
 type RepostBodySchema = z.infer<typeof repostBodySchema>
@@ -32,11 +33,12 @@ export class RepostController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async handle(@Body() body: RepostBodySchema) {
-    const { ownerId, originalPostId } = body
+    const { ownerId, originalPostId, comment } = body
 
     const result = await this.useCase.execute({
       ownerId,
       originalPostId,
+      comment,
     })
     if (result.isLeft()) {
       const error = result.value
