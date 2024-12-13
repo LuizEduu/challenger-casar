@@ -82,4 +82,31 @@ describe('Create Account (E2E)', () => {
       statusCode: 422,
     })
   })
+
+  test('[POST] /posts with comment', async () => {
+    const createdUser = await userFactory.makePrismaUser({
+      name: 'JhonDoe',
+    })
+
+    const body = {
+      content: 'post create to integration test',
+      ownerId: createdUser.id.toString(),
+      comment: 'comment on post',
+    }
+
+    const response = await request(app.getHttpServer())
+      .post('/posts')
+      .send(body)
+
+    expect(response.statusCode).toEqual(201)
+    expect(response.body).toEqual({
+      post: {
+        id: expect.any(String),
+        content: body.content,
+        ownerId: body.ownerId,
+        originalPostId: null,
+        createdAt: expect.any(String),
+      },
+    })
+  })
 })
