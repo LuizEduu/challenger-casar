@@ -7,7 +7,7 @@ import { CreatePostResponse } from '../dto/create-post-response'
 import { left, right } from '@/core/either'
 import { PostsMaxQuantityError } from '@/core/errors/posts-max-quantity-error'
 import { ValidationError } from '@/core/errors/validation-error'
-import { Comment } from '../../enterprise/entities/comment'
+import { Comment } from '../../enterprise/entities/comments'
 
 @Injectable()
 export class CreatePostUseCase {

@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Comment as CommentDomain } from '@/domain/feed/enterprise/entities/comment'
+import { Comment as CommentDomain } from '@/domain/feed/enterprise/entities/comments'
 import { Prisma, Comment as PrismaComment } from '@prisma/client'
 
 export class PrismaCommentMapper {
