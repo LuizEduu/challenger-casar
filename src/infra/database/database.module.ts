@@ -6,6 +6,8 @@ import { UsersFollowersRepository } from '@/domain/feed/application/repositories
 import { PrismaUsersFollowersRepository } from './prisma/repositories/prisma-users-followers-repository'
 import { UsersRepository } from '@/domain/feed/application/repositories/users-repository'
 import { PrismaUsersRepository } from './prisma/repositories/prisma-users-repository'
+import { CommentsRepository } from '@/domain/feed/application/repositories/comments-repository'
+import { PrismaCommentsRepository } from './prisma/repositories/prisma-comments-repository'
 
 @Module({
   imports: [],
@@ -23,12 +25,17 @@ import { PrismaUsersRepository } from './prisma/repositories/prisma-users-reposi
       provide: UsersRepository,
       useClass: PrismaUsersRepository,
     },
+    {
+      provide: CommentsRepository,
+      useClass: PrismaCommentsRepository,
+    },
   ],
   exports: [
     PrismaService,
     PostsRepository,
     UsersFollowersRepository,
     UsersRepository,
+    CommentsRepository,
   ],
 })
 export class DatabaseModule {}

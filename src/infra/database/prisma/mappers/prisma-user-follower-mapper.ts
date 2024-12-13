@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Followers as FollowerDomain } from '@/domain/feed/enterprise/entities/followers'
-import { Prisma, Followers as PrismaFollowers } from '@prisma/client'
+import { Prisma, Follower as PrismaFollowers } from '@prisma/client'
 
 export class PrismaUserFollowerMapper {
   static toDomain(raw: PrismaFollowers): FollowerDomain {
@@ -16,7 +16,7 @@ export class PrismaUserFollowerMapper {
 
   static toPrisma(
     follower: FollowerDomain,
-  ): Prisma.FollowersUncheckedCreateInput {
+  ): Prisma.FollowerUncheckedCreateInput {
     return {
       id: follower.id.toString(),
       followerId: follower.followerId.toString(),

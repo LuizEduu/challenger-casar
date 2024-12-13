@@ -36,7 +36,7 @@ export class PrismaUsersRepository implements UsersRepository {
       return null
     }
 
-    const followeds = await this.prisma.followers.findMany({
+    const followeds = await this.prisma.follower.findMany({
       where: {
         followerId: userId,
       },
@@ -45,7 +45,7 @@ export class PrismaUsersRepository implements UsersRepository {
       },
     })
 
-    const followers = await this.prisma.followers.findMany({
+    const followers = await this.prisma.follower.findMany({
       where: {
         followedId: userId,
       },
@@ -55,8 +55,8 @@ export class PrismaUsersRepository implements UsersRepository {
     })
 
     const [followedsCount, followersCount, postsCount] = await Promise.all([
-      this.prisma.followers.count({ where: { followerId: userId } }),
-      this.prisma.followers.count({ where: { followedId: userId } }),
+      this.prisma.follower.count({ where: { followerId: userId } }),
+      this.prisma.follower.count({ where: { followedId: userId } }),
       this.prisma.post.count({ where: { ownerId: userId } }),
     ])
 

@@ -18,6 +18,7 @@ import { HttpPostsPresenter } from '../presenters/http-posts-presenter'
 const createPostBodySchema = z.object({
   content: z.string(),
   ownerId: z.string(),
+  comment: z.string().optional(),
 })
 
 type CreatePostBodySchema = z.infer<typeof createPostBodySchema>
@@ -30,11 +31,12 @@ export class CreatePostController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async handle(@Body() body: CreatePostBodySchema) {
-    const { content, ownerId } = body
+    const { content, ownerId, comment } = body
 
     const result = await this.useCase.execute({
       content,
       ownerId,
+      comment,
     })
     if (result.isLeft()) {
       const error = result.value

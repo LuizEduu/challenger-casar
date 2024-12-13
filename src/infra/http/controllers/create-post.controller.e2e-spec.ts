@@ -5,11 +5,13 @@ import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { PostFactory } from 'test/factories/make-post'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
 describe('Create Account (E2E)', () => {
   let app: INestApplication
   let userFactory: UserFactory
   let postFactory: PostFactory
+  let prisma: PrismaService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -20,6 +22,7 @@ describe('Create Account (E2E)', () => {
     app = moduleRef.createNestApplication()
     userFactory = app.get(UserFactory)
     postFactory = app.get(PostFactory)
+    prisma = app.get(PrismaService)
 
     await app.init()
   })
@@ -108,5 +111,12 @@ describe('Create Account (E2E)', () => {
         createdAt: expect.any(String),
       },
     })
+    const comment = await prisma.comment.findFirst({
+      where: {
+        postId: response.body.id,
+      },
+    })
+    expect(comment?.content).toEqual('comment on post')
+    expect(comment?.id).toEqual(expect.any(String))
   })
 })

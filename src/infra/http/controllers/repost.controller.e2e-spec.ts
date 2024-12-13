@@ -102,4 +102,40 @@ describe('Repost (E2E)', () => {
       statusCode: 422,
     })
   })
+
+  test('[POST] /posts/repost with comment', async () => {
+    const createdUser = await userFactory.makePrismaUser({
+      name: 'JhonDoe',
+    })
+
+    const post = await postFactory.makePrismaPost({
+      content: 'post created to repost',
+      ownerId: createdUser.id,
+      originalPostId: null,
+    })
+
+    const userToRepost = await userFactory.makePrismaUser({
+      name: 'repostUser',
+    })
+
+    const body = {
+      ownerId: userToRepost.id.toString(),
+      originalPostId: post.id.toString(),
+    }
+
+    const response = await request(app.getHttpServer())
+      .post('/posts/repost')
+      .send(body)
+
+    expect(response.statusCode).toEqual(201)
+    expect(response.body).toEqual({
+      post: {
+        id: expect.any(String),
+        content: post.content,
+        ownerId: body.ownerId,
+        originalPostId: post.id.toString(),
+        createdAt: expect.any(String),
+      },
+    })
+  })
 })

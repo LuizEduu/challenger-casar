@@ -48,7 +48,7 @@ describe('Follower or Unfollower (E2E)', () => {
 
     expect(response.statusCode).toEqual(204)
 
-    const followerOnDb = await prisma.followers.findFirst({
+    const followerOnDb = await prisma.follower.findFirst({
       where: {
         followerId: userToFollower.id.toString(),
       },
@@ -82,7 +82,7 @@ describe('Follower or Unfollower (E2E)', () => {
 
     expect(response.statusCode).toEqual(204)
 
-    const followerOnDb = await prisma.followers.findFirst({
+    const followerOnDb = await prisma.follower.findFirst({
       where: {
         followerId: userToFollower.id.toString(),
       },

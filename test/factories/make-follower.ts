@@ -42,7 +42,7 @@ export class FollowersFactory {
   ): Promise<Followers> {
     const follower = makeFollower(data)
 
-    await this.prismaService.followers.create({
+    await this.prismaService.follower.create({
       data: PrismaUserFollowerMapper.toPrisma(follower),
     })
 

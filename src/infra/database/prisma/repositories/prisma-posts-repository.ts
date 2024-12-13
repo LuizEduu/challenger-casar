@@ -5,10 +5,14 @@ import { Post } from '@/domain/feed/enterprise/entities/posts'
 import { PrismaPostMapper } from '../mappers/prisma-post-mapper'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import dayjs from 'dayjs'
+import { CommentsRepository } from '@/domain/feed/application/repositories/comments-repository'
 
 @Injectable()
 export class PrismaPostsRepository implements PostsRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly commentsRepository: CommentsRepository,
+  ) {}
 
   async create(post: Post): Promise<void> {
     const data = PrismaPostMapper.toPrisma(post)
@@ -16,6 +20,8 @@ export class PrismaPostsRepository implements PostsRepository {
     await this.prisma.post.create({
       data,
     })
+
+    post.comment && (await this.commentsRepository.create(post.comment))
   }
 
   async findById(postId: string): Promise<Post | null> {

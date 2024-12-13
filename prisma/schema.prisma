@@ -14,24 +14,26 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
 
   posts     Post[]
-  followers Followers[] @relation("follower_user_foreign")
-  followeds Followers[] @relation("followed_user_foreign")
+  followers Follower[] @relation("follower_user_foreign")
+  followeds Follower[] @relation("followed_user_foreign")
+  comments  Comment[]
 
   @@map("users")
 }
 
 model Post {
-  id             String   @id @default(cuid())
+  id             String    @id @default(cuid())
   content        String
-  ownerId        String   @map("owner_id")
-  originalPostId String?  @map("original_post_id")
-  createdAt      DateTime @default(now()) @map("created_at")
-  owner          User     @relation(fields: [ownerId], references: [id])
+  ownerId        String    @map("owner_id")
+  originalPostId String?   @map("original_post_id")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  owner          User      @relation(fields: [ownerId], references: [id])
+  comment        Comment[]
 
   @@map("posts")
 }
 
-model Followers {
+model Follower {
   id         String   @id @default(cuid())
   followerId String   @map("follower_id")
   followedId String   @map("followed_id")
@@ -41,4 +43,15 @@ model Followers {
   followed User @relation(fields: [followedId], references: [id], name: "followed_user_foreign")
 
   @@map("followers")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  postId    String   @map("post_id")
+  ownerId   String   @map("owner_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  post  Post @relation(fields: [postId], references: [id])
+  owner User @relation(fields: [ownerId], references: [id])
 }

@@ -5,7 +5,7 @@ import { Optional } from '@/core/types/optional'
 export interface CommentProps {
   content: string
   postId: UniqueEntityID
-  ownerId: UniqueEntityID | null
+  ownerId: UniqueEntityID
   createdAt: Date | string
 }
 

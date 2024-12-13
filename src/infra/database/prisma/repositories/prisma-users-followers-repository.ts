@@ -13,13 +13,13 @@ export class PrismaUsersFollowersRepository
   async create(follower: Followers): Promise<void> {
     const data = PrismaUserFollowerMapper.toPrisma(follower)
 
-    await this.prisma.followers.create({
+    await this.prisma.follower.create({
       data,
     })
   }
 
   async delete(userId: string, followerId: string): Promise<void> {
-    await this.prisma.followers.deleteMany({
+    await this.prisma.follower.deleteMany({
       where: {
         followerId,
         followedId: userId,
@@ -28,7 +28,7 @@ export class PrismaUsersFollowersRepository
   }
 
   async fetchByUserId(id: string): Promise<Followers[]> {
-    const followers = await this.prisma.followers.findMany({
+    const followers = await this.prisma.follower.findMany({
       where: {
         followerId: id,
       },
