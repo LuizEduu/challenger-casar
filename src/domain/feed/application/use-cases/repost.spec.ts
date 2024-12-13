@@ -46,6 +46,7 @@ describe('repost use case', () => {
       expect(repost.value.ownerId.toString()).toEqual(
         userToRepost.id.toString(),
       )
+      expect(inMemoryCommentsRepository.comments).toHaveLength(0)
     }
   })
 

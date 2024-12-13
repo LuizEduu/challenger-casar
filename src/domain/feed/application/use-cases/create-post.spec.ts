@@ -33,6 +33,7 @@ describe('create post use case', async () => {
     expect(result.isRight()).toBe(true)
     expect(result.isLeft()).toBe(false)
     expect(inMemoryPostsRepository.inMemoryPosts).toHaveLength(1)
+    expect(inMemoryCommentsRepository.comments).toHaveLength(0)
     if (result.isRight()) {
       expect(result.value.content).toEqual(content)
       expect(result.value.ownerId.toString()).toEqual(user.id.toString())
