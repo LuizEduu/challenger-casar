@@ -5,13 +5,18 @@ import { makeUser } from 'test/factories/make-user'
 import { ValidationError } from '@/core/errors/validation-error'
 import { makePost } from 'test/factories/make-post'
 import { PostsMaxQuantityError } from '@/core/errors/posts-max-quantity-error'
+import { InMemoryCommentsRepository } from 'test/repositories/in-memory-comments-repository'
 
+let inMemoryCommentsRepository: InMemoryCommentsRepository
 let inMemoryPostsRepository: InMemoryPostsRepository
 let sut: CreatePostUseCase
 
 describe('create post use case', async () => {
   beforeEach(() => {
-    inMemoryPostsRepository = new InMemoryPostsRepository()
+    inMemoryCommentsRepository = new InMemoryCommentsRepository()
+    inMemoryPostsRepository = new InMemoryPostsRepository(
+      inMemoryCommentsRepository,
+    )
     sut = new CreatePostUseCase(inMemoryPostsRepository)
   })
 
@@ -73,5 +78,29 @@ describe('create post use case', async () => {
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(PostsMaxQuantityError)
     expect(inMemoryPostsRepository.inMemoryPosts.length).toEqual(5)
+  })
+
+  it('should be able to create a new post with comment', async () => {
+    const user = makeUser()
+    const content = faker.lorem.sentence()
+
+    const result = await sut.execute({
+      content,
+      ownerId: user.id.toString(),
+      originalPostId: null,
+      comment: 'comentário sobre o post',
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(result.isLeft()).toBe(false)
+    expect(inMemoryPostsRepository.inMemoryPosts).toHaveLength(1)
+    expect(inMemoryCommentsRepository.comments).toHaveLength(1)
+    if (result.isRight()) {
+      expect(result.value.content).toEqual(content)
+      expect(result.value.ownerId.toString()).toEqual(user.id.toString())
+      expect(inMemoryCommentsRepository.comments[0].postId.toString()).toEqual(
+        result.value.id.toString(),
+      )
+    }
   })
 })

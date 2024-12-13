@@ -1,4 +1,5 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
+import { CommentsRepository } from '@/domain/feed/application/repositories/comments-repository'
 import { PostsRepository } from '@/domain/feed/application/repositories/posts-repository'
 import { Post } from '@/domain/feed/enterprise/entities/posts'
 import dayjs from 'dayjs'
@@ -6,12 +7,14 @@ import dayjs from 'dayjs'
 export class InMemoryPostsRepository implements PostsRepository {
   public inMemoryPosts: Post[]
 
-  constructor() {
+  constructor(private readonly commentsRepository: CommentsRepository) {
     this.inMemoryPosts = []
   }
 
   async create(post: Post): Promise<void> {
     this.inMemoryPosts.push(post)
+
+    post.comment && this.commentsRepository.create(post.comment)
   }
 
   async countByOwnerIdInDay(ownerId: string): Promise<number> {
