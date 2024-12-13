@@ -1,8 +1,8 @@
 import { InMemoryPostsRepository } from 'test/repositories/in-memory-posts-repository'
-import { FetchRecentPostsUseCase } from './fetch-recents-posts'
 import { makePost } from 'test/factories/make-post'
 import dayjs from 'dayjs'
 import { InMemoryCommentsRepository } from 'test/repositories/in-memory-comments-repository'
+import { FetchRecentPostsUseCase } from '@/domain/feed/application/use-cases/fetch-recents-posts'
 
 let inMemoryCommentsRepository: InMemoryCommentsRepository
 let inMemoryPostsRepository: InMemoryPostsRepository

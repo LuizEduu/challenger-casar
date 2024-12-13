@@ -1,11 +1,11 @@
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
-import { GetUserUseCase } from './get-user'
 import { InMemoryUsersFollowersRepository } from 'test/repositories/in-memory-users-followers-repository'
 import { InMemoryPostsRepository } from 'test/repositories/in-memory-posts-repository'
 import { makeUser } from 'test/factories/make-user'
 import { makeFollower } from 'test/factories/make-follower'
 import { makePost } from 'test/factories/make-post'
 import { InMemoryCommentsRepository } from 'test/repositories/in-memory-comments-repository'
+import { GetUserUseCase } from '@/domain/feed/application/use-cases/get-user'
 
 let postsRepository: InMemoryPostsRepository
 let commentsRepository: InMemoryCommentsRepository

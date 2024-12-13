@@ -1,11 +1,11 @@
 import { InMemoryPostsRepository } from 'test/repositories/in-memory-posts-repository'
-import { CreatePostUseCase } from './create-post'
 import { faker } from '@faker-js/faker'
 import { makeUser } from 'test/factories/make-user'
 import { ValidationError } from '@/core/errors/validation-error'
 import { makePost } from 'test/factories/make-post'
 import { PostsMaxQuantityError } from '@/core/errors/posts-max-quantity-error'
 import { InMemoryCommentsRepository } from 'test/repositories/in-memory-comments-repository'
+import { CreatePostUseCase } from '@/domain/feed/application/use-cases/create-post'
 
 let inMemoryCommentsRepository: InMemoryCommentsRepository
 let inMemoryPostsRepository: InMemoryPostsRepository

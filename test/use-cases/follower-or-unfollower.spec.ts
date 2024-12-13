@@ -1,12 +1,12 @@
 import { InMemoryUsersFollowersRepository } from 'test/repositories/in-memory-users-followers-repository'
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
-import { FollowerOrUnfollowerUseCase } from './follower-or-unfollower'
 import { InMemoryPostsRepository } from 'test/repositories/in-memory-posts-repository'
 import { makeUser } from 'test/factories/make-user'
 import { makeFollower } from 'test/factories/make-follower'
 import { UserNotFoundError } from '@/core/errors/user-not-found-error'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { InMemoryCommentsRepository } from 'test/repositories/in-memory-comments-repository'
+import { FollowerOrUnfollowerUseCase } from '@/domain/feed/application/use-cases/follower-or-unfollower'
 
 let usersFollowersRepository: InMemoryUsersFollowersRepository
 let inMemoryCommentsRepository: InMemoryCommentsRepository
