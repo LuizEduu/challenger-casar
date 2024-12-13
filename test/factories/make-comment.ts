@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   Comment,
   CommentProps,
-} from '@/domain/feed/enterprise/entities/comment'
+} from '@/domain/feed/enterprise/entities/comments'
 import { faker } from '@faker-js/faker'
 import { PrismaCommentMapper } from '@/infra/database/prisma/mappers/prisma-comment-mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
