@@ -104,4 +104,23 @@ describe('create post use case', async () => {
       )
     }
   })
+
+  it('should throws validation error when comment content length greater then 200 characters', async () => {
+    const user = makeUser()
+    const commentContent = faker.lorem.sentence({
+      min: 201,
+      max: 400,
+    })
+
+    const result = await sut.execute({
+      content: 'post content',
+      ownerId: user.id.toString(),
+      originalPostId: null,
+      comment: commentContent,
+    })
+
+    expect(result.isRight()).toBe(false)
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ValidationError)
+  })
 })

@@ -54,6 +54,12 @@ export class RepostUseCase {
         })
       : null
 
+    const commentError = commentOnPost?.validate()
+
+    if (commentError?.hasError) {
+      return left(new ValidationError(commentError.error))
+    }
+
     newPost.comment = commentOnPost
 
     await this.postsRepository.create(newPost)

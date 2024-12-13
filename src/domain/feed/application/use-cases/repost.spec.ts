@@ -157,4 +157,26 @@ describe('repost use case', () => {
       )
     }
   })
+
+  it('should throws validation error when repost comment content length greater then 200 characters', async () => {
+    const ownerToOriginalPost = makeUser()
+    const userToRepost = makeUser()
+
+    const originalPost = makePost({
+      ownerId: ownerToOriginalPost.id,
+      content: 'original post content',
+    })
+
+    await inMemoryPostsRepository.create(originalPost)
+
+    const repost = await sut.execute({
+      originalPostId: originalPost.id.toString(),
+      ownerId: userToRepost.id.toString(),
+      comment: 'repost comment'.repeat(200),
+    })
+
+    expect(repost.isRight()).toBe(false)
+    expect(repost.isLeft()).toBe(true)
+    expect(repost.value).toBeInstanceOf(ValidationError)
+  })
 })
