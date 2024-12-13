@@ -5,8 +5,10 @@ import { InMemoryPostsRepository } from 'test/repositories/in-memory-posts-repos
 import { makeUser } from 'test/factories/make-user'
 import { makeFollower } from 'test/factories/make-follower'
 import { makePost } from 'test/factories/make-post'
+import { InMemoryCommentsRepository } from 'test/repositories/in-memory-comments-repository'
 
 let postsRepository: InMemoryPostsRepository
+let commentsRepository: InMemoryCommentsRepository
 let usersFollowersRepository: InMemoryUsersFollowersRepository
 let usersRepository: InMemoryUsersRepository
 let sut: GetUserUseCase
@@ -14,7 +16,8 @@ let sut: GetUserUseCase
 describe('get user use case', () => {
   beforeEach(() => {
     usersFollowersRepository = new InMemoryUsersFollowersRepository()
-    postsRepository = new InMemoryPostsRepository()
+    commentsRepository = new InMemoryCommentsRepository()
+    postsRepository = new InMemoryPostsRepository(commentsRepository)
     usersRepository = new InMemoryUsersRepository(
       usersFollowersRepository,
       postsRepository,
@@ -82,7 +85,7 @@ describe('get user use case', () => {
           userId: followedUsersIds[1],
         }),
       ])
-    result.isRight() && expect(result.value.numberOfFollowed).toEqual(2)
+    result.isRight() && expect(result.value.numberOfFolloweds).toEqual(2)
     result.isRight() && expect(result.value.numberOfFollowers).toEqual(2)
     result.isRight() && expect(result.value.numberOfPosts).toEqual(2)
   })
