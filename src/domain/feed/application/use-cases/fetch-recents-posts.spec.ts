@@ -2,13 +2,18 @@ import { InMemoryPostsRepository } from 'test/repositories/in-memory-posts-repos
 import { FetchRecentPostsUseCase } from './fetch-recents-posts'
 import { makePost } from 'test/factories/make-post'
 import dayjs from 'dayjs'
+import { InMemoryCommentsRepository } from 'test/repositories/in-memory-comments-repository'
 
+let inMemoryCommentsRepository: InMemoryCommentsRepository
 let inMemoryPostsRepository: InMemoryPostsRepository
 let sut: FetchRecentPostsUseCase
 
 describe('Fetch recents posts use case', () => {
   beforeEach(() => {
-    inMemoryPostsRepository = new InMemoryPostsRepository()
+    inMemoryCommentsRepository = new InMemoryCommentsRepository()
+    inMemoryPostsRepository = new InMemoryPostsRepository(
+      inMemoryCommentsRepository,
+    )
     sut = new FetchRecentPostsUseCase(inMemoryPostsRepository)
   })
 

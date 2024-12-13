@@ -7,16 +7,21 @@ import dayjs from 'dayjs'
 import { makePost } from 'test/factories/make-post'
 import { makeFollower } from 'test/factories/make-follower'
 import { UserNotFoundError } from '@/core/errors/user-not-found-error'
+import { InMemoryCommentsRepository } from 'test/repositories/in-memory-comments-repository'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryUsersFollowersRepository: InMemoryUsersFollowersRepository
+let inMemoryCommentsRepository: InMemoryCommentsRepository
 let inMemoryPostsRepository: InMemoryPostsRepository
 let sut: FetchRecentsFollowedPostsUseCase
 
 describe('Fetch recents followed posts use case', () => {
   beforeEach(() => {
     inMemoryUsersFollowersRepository = new InMemoryUsersFollowersRepository()
-    inMemoryPostsRepository = new InMemoryPostsRepository()
+    inMemoryCommentsRepository = new InMemoryCommentsRepository()
+    inMemoryPostsRepository = new InMemoryPostsRepository(
+      inMemoryCommentsRepository,
+    )
     inMemoryUsersRepository = new InMemoryUsersRepository(
       inMemoryUsersFollowersRepository,
       inMemoryPostsRepository,

@@ -6,8 +6,11 @@ import { makeUser } from 'test/factories/make-user'
 import { makeFollower } from 'test/factories/make-follower'
 import { UserNotFoundError } from '@/core/errors/user-not-found-error'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
+import { InMemoryCommentsRepository } from 'test/repositories/in-memory-comments-repository'
 
 let usersFollowersRepository: InMemoryUsersFollowersRepository
+let inMemoryCommentsRepository: InMemoryCommentsRepository
+
 let postsRepository: InMemoryPostsRepository
 let usersRepository: InMemoryUsersRepository
 let sut: FollowerOrUnfollowerUseCase
@@ -15,7 +18,8 @@ let sut: FollowerOrUnfollowerUseCase
 describe('follower or unfollower use case', () => {
   beforeEach(() => {
     usersFollowersRepository = new InMemoryUsersFollowersRepository()
-    postsRepository = new InMemoryPostsRepository()
+    inMemoryCommentsRepository = new InMemoryCommentsRepository()
+    postsRepository = new InMemoryPostsRepository(inMemoryCommentsRepository)
     usersRepository = new InMemoryUsersRepository(
       usersFollowersRepository,
       postsRepository,
