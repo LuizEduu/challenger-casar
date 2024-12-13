@@ -8,7 +8,6 @@ import { Post } from '../../enterprise/entities/posts'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { PostsMaxQuantityError } from '@/core/errors/posts-max-quantity-error'
 import { ValidationError } from '@/core/errors/validation-error'
-import { Comment } from '../../enterprise/entities/comment'
 
 @Injectable()
 export class RepostUseCase {
@@ -18,7 +17,6 @@ export class RepostUseCase {
   async execute({
     ownerId,
     originalPostId,
-    comment,
   }: RepostRequest): Promise<RepostResponse> {
     const post = await this.postsRepository.findById(originalPostId)
 
@@ -45,22 +43,6 @@ export class RepostUseCase {
     if (hasError) {
       return left(new ValidationError(error))
     }
-
-    const commentOnPost = comment
-      ? Comment.create({
-          content: comment,
-          ownerId: new UniqueEntityID(ownerId),
-          postId: newPost.id,
-        })
-      : null
-
-    const commentError = commentOnPost?.validate()
-
-    if (commentError?.hasError) {
-      return left(new ValidationError(commentError.error))
-    }
-
-    newPost.comment = commentOnPost
 
     await this.postsRepository.create(newPost)
 

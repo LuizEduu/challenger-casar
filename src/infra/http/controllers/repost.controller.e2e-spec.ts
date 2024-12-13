@@ -5,24 +5,24 @@ import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { PostFactory } from 'test/factories/make-post'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { CommentFactory } from 'test/factories/make-comment'
 
 describe('Repost (E2E)', () => {
   let app: INestApplication
   let userFactory: UserFactory
   let postFactory: PostFactory
-  let prisma: PrismaService
+  let commentFactory: CommentFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [UserFactory, PostFactory],
+      providers: [UserFactory, PostFactory, CommentFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
     userFactory = app.get(UserFactory)
     postFactory = app.get(PostFactory)
-    prisma = app.get(PrismaService)
+    commentFactory = app.get(CommentFactory)
 
     await app.init()
   })
@@ -117,6 +117,11 @@ describe('Repost (E2E)', () => {
       originalPostId: null,
     })
 
+    await commentFactory.makePrismaComment({
+      postId: post.id,
+      ownerId: createdUser.id,
+    })
+
     const userToRepost = await userFactory.makePrismaUser({
       name: 'repostUser',
     })
@@ -124,7 +129,6 @@ describe('Repost (E2E)', () => {
     const body = {
       ownerId: userToRepost.id.toString(),
       originalPostId: post.id.toString(),
-      comment: 'comment on repost',
     }
 
     const response = await request(app.getHttpServer())
@@ -141,13 +145,5 @@ describe('Repost (E2E)', () => {
         createdAt: expect.any(String),
       },
     })
-
-    const commentOnDb = await prisma.comment.findFirst({
-      where: {
-        postId: response.body.id,
-      },
-    })
-
-    expect(commentOnDb?.content).toEqual('comment on repost')
   })
 })
