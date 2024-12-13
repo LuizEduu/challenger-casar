@@ -6,6 +6,7 @@ import { makeFollower } from 'test/factories/make-follower'
 import { makePost } from 'test/factories/make-post'
 import { InMemoryCommentsRepository } from 'test/repositories/in-memory-comments-repository'
 import { GetUserUseCase } from '@/domain/feed/application/use-cases/get-user'
+import { UserNotFoundError } from '@/core/errors/user-not-found-error'
 
 let postsRepository: InMemoryPostsRepository
 let commentsRepository: InMemoryCommentsRepository
@@ -88,5 +89,17 @@ describe('get user use case', () => {
     result.isRight() && expect(result.value.numberOfFolloweds).toEqual(2)
     result.isRight() && expect(result.value.numberOfFollowers).toEqual(2)
     result.isRight() && expect(result.value.numberOfPosts).toEqual(2)
+  })
+
+  it('should be able to throws UserNotFoundError when user not found', async () => {
+    const userToFind = makeUser()
+
+    const result = await sut.execute({
+      userId: userToFind.id.toString(),
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.isRight()).toBe(false)
+    expect(result.value).toBeInstanceOf(UserNotFoundError)
   })
 })
