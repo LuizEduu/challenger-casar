@@ -20,7 +20,7 @@ afterAll(async () => {
 describe('PrismaUsersRepository', () => {
   it('should be able find a user by ID', async () => {
     const user = await prisma.user.create({
-      data: { id: '1', name: 'JohnDoe', createdAt: new Date() },
+      data: { name: 'JohnDoe' },
     })
 
     const foundUser = await usersRepository.findById(user.id)
