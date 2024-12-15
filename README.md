@@ -64,6 +64,8 @@ pnpm i
 
 docker compose up -d
 
+### para executar os scripts abaixo é necessário executar o comando anterior
+
 ### Executar a aplicação em modo de desenvolvimento
 
 pnpm run start:dev
@@ -75,6 +77,9 @@ pnpm run seed
 ### Executar os testes unitários
 
 pnpm run test
+
+- Aqui nos testes unitários dos repositorios optei por utilizar também o postgres para ter uma fidelidade maior com o ambiente produtivo
+  temos também a possibilidade de migrar para um sqlite e otimizar um pouco mais essas execuções, não dependendo do postgres ou docker para isso
 
 ### Executar os testes de integração
 
