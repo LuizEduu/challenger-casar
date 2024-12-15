@@ -20,14 +20,6 @@ export class InMemoryUsersFollowersRepository
     )
   }
 
-  async fetchFollowedsByUserIdWithFollowedsInfo(
-    userId: string,
-  ): Promise<Followers[]> {
-    return this.usersFollowers.filter(
-      (userFollower) => userFollower.followerId.toString() === userId,
-    )
-  }
-
   async delete(userId: string, followerId: string): Promise<void> {
     const registerToDeleteIndex = this.usersFollowers.findIndex(
       (follower) =>

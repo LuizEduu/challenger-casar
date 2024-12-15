@@ -18,7 +18,7 @@ afterAll(async () => {
 })
 
 describe('PrismaUsersRepository', () => {
-  it('should find a user by ID', async () => {
+  it('should be able find a user by ID', async () => {
     const user = await prisma.user.create({
       data: { id: '1', name: 'JohnDoe', createdAt: new Date() },
     })

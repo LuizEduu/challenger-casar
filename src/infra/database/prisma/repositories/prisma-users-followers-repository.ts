@@ -36,10 +36,4 @@ export class PrismaUsersFollowersRepository
 
     return followers.map(PrismaUserFollowerMapper.toDomain)
   }
-
-  async fetchFollowedsByUserIdWithFollowedsInfo(
-    userId: string,
-  ): Promise<Followers[]> {
-    throw new Error('unplemented method')
-  }
 }
