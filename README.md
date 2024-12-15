@@ -52,6 +52,14 @@ PORT=3000
 
 ## Como executar a aplicação
 
+### instalar pnpm
+
+npm install -g pnpm
+
+### instalar os pacotes da aplicação
+
+pnpm i
+
 ### Subir a infraestrutura com Docker Compose
 
 docker compose up -d
