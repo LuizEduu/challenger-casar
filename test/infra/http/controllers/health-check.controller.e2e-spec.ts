@@ -21,7 +21,7 @@ describe('Health check (E2E)', () => {
   })
 
   test('[GET] /health', async () => {
-    const response = await request('http://localhost:8080').get('/health') // chama o nginx para validar que os servers estão ok
+    const response = await request('http://nginx:8080').get('/health') // chama o nginx para validar que os servers estão ok
 
     expect(response.statusCode).toEqual(200)
     expect(response.text).toEqual('OK')

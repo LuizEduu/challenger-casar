@@ -25,6 +25,8 @@ No system design eu pensei em uma arquitetura inicial e implementável, porém a
 - **CUID**: utilizei CUID para geraçãos dos ids dos registros pois ele foi projeto principalmente para escalabilidade horizontal
 - **PNPM**: utilizo o pnpm como gerenciador de pacotes por ser mais rápido que os demais
 
+- Utilizei as versões mais recentes do Nodejs recomendo executar na versão 22 caso seja local
+
 ## Arquitetura
 
 A arquitetura escolhida é a **Clean Architecture**, que visa desacoplar as diferentes camadas do sistema para proporcionar maior flexibilidade e facilidade de manutenção. Com isso, optamos por modelar a aplicação de acordo com as intenções dos usuários, utilizando **use cases** para expor essas intenções de maneira clara e direta.
@@ -44,7 +46,7 @@ Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis de ambient
 NODE_ENV=dev
 
 # Banco de Dados
-DATABASE_URL="postgresql://docker:docker@localhost:5432/thoughts?schema=public"
+DATABASE_URL="postgresql://docker:docker@postgres:5432/thoughts?schema=public"
 
 # Porta
 PORT=3000
@@ -54,6 +56,40 @@ PORT=3000
 
 - **É importante realizar o passo anterior e criar o arquivo .env na raiz do projeto antes de seguir**
 
+### Subir a infraestrutura com Docker Compose
+
+docker compose up -d
+
+## Para executar utilizando os containers docker (Recomendado)
+
+- docker exec -it nodejs1 ou nodejs2 bash para acessar o container node
+
+### Rodar o seed com dados de usuários para testes
+
+pnpm run seed
+
+### Executar a aplicação em modo de desenvolvimento
+
+pnpm run start:dev
+
+### Executar os testes unitários
+
+pnpm run test
+
+### Executar os testes de integração
+
+pnpm run test:e2e
+
+**=============================================================================**
+
+## Para executar localmente
+
+- Para executar a aplicação localmente é necessário realizar 2 passos
+
+- mudar o valor na variável de ambiente no **.env** DATABASE_URL para **DATABASE_URL="postgresql://docker:docker@localhost:5432/thoughts?schema=public"**
+  para a aplicação conseguir se conectar no banco.
+- no arquivo **health-check.controller.e2e-spec.ts** é necessário mudar a url da chamada para localhost:8080 pois o teste está configurado para se conectar no nginx pelo container node.
+
 ### instalar pnpm
 
 npm install -g pnpm
@@ -62,19 +98,13 @@ npm install -g pnpm
 
 pnpm i
 
-### Subir a infraestrutura com Docker Compose
+### Rodar o seed com dados de usuários para testes
 
-docker compose up -d
-
-### para executar os scripts abaixo é necessário executar o comando anterior
+pnpm run seed
 
 ### Executar a aplicação em modo de desenvolvimento
 
 pnpm run start:dev
-
-### Rodar o seed com dados de usuários para testes
-
-pnpm run seed
 
 ### Executar os testes unitários
 
@@ -123,6 +153,6 @@ Propostas de melhorias para oferecer maior escabilidade e resiliencia
 
 ## Pontos de falha
 
-Na minha opinião, o que falharia primeiro seria o feed da plataforma, pois envolve postagens, comentários e dados do usuário.
+Na minha opinião, o que falharia primeiro seria o feed inicial da plataforma, pois envolve postagens, comentários e dados do usuário.
 Cada postagem tem comentários, cada comentários em uma solução mais real tem respostas, retwitters, imagens e vídeos.
 Dessa forma sem uma escalabilidade e infra de acordo seria um ponto de falha em altos acessos.
