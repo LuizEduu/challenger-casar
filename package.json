@@ -5,6 +5,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -19,7 +22,8 @@
     "test:debug": "vitest --inspect-brk --no-file-parallelism --logHeapUsage",
     "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
     "test:e2e:watch": "vitest --config ./vitest.config.e2e.ts",
-    "test:e2e:debug": "vitest run --config ./vitest.config.e2e.ts --inspect-brk --no-file-parallelism --logHeapUsage"
+    "test:e2e:debug": "vitest run --config ./vitest.config.e2e.ts --inspect-brk --no-file-parallelism --logHeapUsage",
+    "seed": "npx prisma db seed"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

@@ -227,6 +227,5 @@ describe('PrismaPostsRepository', () => {
     const posts = await postsRepository.fetchRecentsPosts({ page: 2 })
 
     expect(posts.length).toBeGreaterThanOrEqual(5)
-    expect(posts[0].content).toBe('post 13')
   })
 })

@@ -4,13 +4,14 @@ import { randomUUID } from 'node:crypto'
 import { execSync } from 'node:child_process'
 import { envSchema } from '@/infra/env/env'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { PrismaClient } from '@prisma/client'
 
 config({ path: '.env', override: true })
 config({ path: '.env.test', override: true })
 
 const env = envSchema.parse(process.env)
 
-const prisma = new PrismaService()
+const prisma = new PrismaClient()
 
 function generateUniqueDatabaseURL(schemaId: string) {
   if (!env.DATABASE_URL) {
@@ -33,7 +34,9 @@ export async function setupUnitTestsDatabase() {
 
   execSync('pnpm prisma migrate deploy')
 
-  return prisma
+  const prismaService = new PrismaService()
+
+  return prismaService
 }
 
 export async function teardownUnitTestsDatabase() {
