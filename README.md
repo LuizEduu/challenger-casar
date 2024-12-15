@@ -5,7 +5,7 @@ Este projeto é uma aplicação backend construída com **NestJS**, utilizando *
 ## Modelagem DER e proposta de arquitetura
 
 ![Modelo DER](./assets/der_model.png)
-![System design](./assets//system_desing.png)
+![System design](./assets/system_design.png)
 
 No system design eu pensei em uma arquitetura inicial e implementável, porém alguns pontos a considerar
 
