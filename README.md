@@ -80,8 +80,6 @@ pnpm run test
 
 pnpm run test:e2e
 
-**=============================================================================**
-
 ## Para executar localmente
 
 - Para executar a aplicação localmente é necessário realizar 2 passos
