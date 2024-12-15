@@ -52,6 +52,8 @@ PORT=3000
 
 ## Como executar a aplicação
 
+- **É importante realizar o passo anterior e criar o arquivo .env na raiz do projeto antes de seguir**
+
 ### instalar pnpm
 
 npm install -g pnpm
