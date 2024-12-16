@@ -115,6 +115,11 @@ pnpm run test
 
 pnpm run test:e2e
 
+## executar as chamadas HTTP
+
+na raiz do projeto tem um arquivo **api.http** que pode ser usado para executar as chamadas basta utilizar o vscode e instalar a extensão
+REST Client https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
 ## Sessão critica
 
 Aqui deixo os pontos de melhoria que na minha visão para uma aplicação real seria importante e fundamental para boa escabalidade e peformance
