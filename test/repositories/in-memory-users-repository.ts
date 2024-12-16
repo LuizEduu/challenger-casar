@@ -58,7 +58,6 @@ export class InMemoryUsersRepository implements UsersRepository {
       numberOfFollowers: userFollowers.length,
       numberOfFolloweds: userFolloweds.length,
       numberOfPosts: userPosts.length,
-      posts: userPosts,
       followedUsers: followedsInfo,
     })
   }

@@ -56,12 +56,10 @@ describe('get user use case', () => {
       followedUsersIds.push(user.id.toString())
     }
 
-    const postContent = 'content'
-
-    for (let i = 0; i < 2; i++) {
+    for (let i = 1; i <= 6; i++) {
       postsRepository.inMemoryPosts.push(
         makePost({
-          content: postContent,
+          content: `content ${i}`,
           ownerId: userToFind.id,
         }),
       )
@@ -92,18 +90,7 @@ describe('get user use case', () => {
       ])
       expect(result.value.numberOfFolloweds).toEqual(2)
       expect(result.value.numberOfFollowers).toEqual(2)
-      expect(result.value.numberOfPosts).toEqual(2)
-      expect(result.value.numberOfPosts).toEqual(2)
-      const postResult = result.value.posts.map((p) => ({
-        ownerId: p.ownerId.toString(),
-        content: p.content,
-      }))
-      expect(
-        result.value.posts.map((p) => ({
-          ownerId: p.ownerId.toString(),
-          content: p.content,
-        })),
-      ).toEqual(postResult)
+      expect(result.value.numberOfPosts).toEqual(6)
     }
   })
 
