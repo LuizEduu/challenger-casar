@@ -1,5 +1,6 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ValueObject } from '@/core/entities/value-object'
+import dayjs from 'dayjs'
 
 type followedUsers = {
   userId: UniqueEntityID
@@ -25,7 +26,7 @@ export class UserWithFollowersAndPosts extends ValueObject<UserWithFollowersAndP
   }
 
   get ingressedAt() {
-    return this.props.ingressedAt
+    return dayjs(this.props.ingressedAt.toString()).format('DD/MM/YYYY')
   }
 
   set ingressedAt(ingressedAt: Date | string) {

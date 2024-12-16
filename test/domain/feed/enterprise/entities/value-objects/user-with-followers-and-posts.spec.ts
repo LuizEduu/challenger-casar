@@ -1,5 +1,6 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { UserWithFollowersAndPosts } from '@/domain/feed/enterprise/entities/value-objects/user-with-followers-and-posts'
+import dayjs from 'dayjs'
 
 describe('UserWithFollowersAndPosts value object', () => {
   it('should create a valid UserWithFollowersAndPosts instance', () => {
@@ -20,7 +21,7 @@ describe('UserWithFollowersAndPosts value object', () => {
 
     expect(user).toBeTruthy()
     expect(user.name).toEqual('ValidUser')
-    expect(user.ingressedAt).toEqual(ingressedAt)
+    expect(user.ingressedAt).toEqual(dayjs(ingressedAt).format('DD/MM/YYYY'))
     expect(user.numberOfFollowers).toEqual(100)
     expect(user.numberOfFolloweds).toEqual(50)
     expect(user.numberOfPosts).toEqual(20)
@@ -55,7 +56,9 @@ describe('UserWithFollowersAndPosts value object', () => {
     })
 
     user.ingressedAt = updatedDate
-    expect(user.ingressedAt).toEqual(updatedDate)
+    expect(user.ingressedAt).toEqual(
+      dayjs(user.ingressedAt).format('DD/MM/YYYY'),
+    )
   })
 
   it('should allow updating the numberOfFollowers property', () => {
