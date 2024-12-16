@@ -119,4 +119,60 @@ describe('repost use case', () => {
     expect(repost.isLeft()).toBe(true)
     expect(repost.value).toBeInstanceOf(ResourceNotFoundError)
   })
+
+  it('should be able to repost another user post with comment', async () => {
+    const ownerToOriginalPost = makeUser()
+    const userToRepost = makeUser()
+
+    const originalPost = makePost({
+      ownerId: ownerToOriginalPost.id,
+      content: 'original post content',
+    })
+
+    await inMemoryPostsRepository.create(originalPost)
+
+    const repost = await sut.execute({
+      originalPostId: originalPost.id.toString(),
+      ownerId: userToRepost.id.toString(),
+      comment: 'comment on repost',
+    })
+
+    expect(repost.isLeft()).toBe(false)
+    expect(repost.isRight()).toBe(true)
+    if (repost.isRight()) {
+      expect(repost.value.content).toEqual(originalPost.content)
+      expect(repost.value.originalPostId?.toString()).toEqual(
+        originalPost.id.toString(),
+      )
+      expect(repost.value.ownerId.toString()).toEqual(
+        userToRepost.id.toString(),
+      )
+      expect(inMemoryCommentsRepository.comments).toHaveLength(1)
+      expect(inMemoryCommentsRepository.comments[0].content).toEqual(
+        'comment on repost',
+      )
+    }
+  })
+
+  it('should throws validation error when repost comment length greater then 200 characters', async () => {
+    const ownerToOriginalPost = makeUser()
+    const userToRepost = makeUser()
+
+    const originalPost = makePost({
+      ownerId: ownerToOriginalPost.id,
+      content: 'original post content',
+    })
+
+    await inMemoryPostsRepository.create(originalPost)
+
+    const repost = await sut.execute({
+      originalPostId: originalPost.id.toString(),
+      ownerId: userToRepost.id.toString(),
+      comment: 'comment on repost'.repeat(200),
+    })
+
+    expect(repost.isRight()).toBe(false)
+    expect(repost.isLeft()).toBe(true)
+    expect(repost.value).toBeInstanceOf(ValidationError)
+  })
 })

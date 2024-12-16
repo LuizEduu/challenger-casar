@@ -1,5 +1,5 @@
 import { CommentsRepository } from '@/domain/feed/application/repositories/comments-repository'
-import { Comment } from '@/domain/feed/enterprise/entities/comment'
+import { Comment } from '@/domain/feed/enterprise/entities/comments'
 
 export class InMemoryCommentsRepository implements CommentsRepository {
   public comments: Comment[]
