@@ -1,6 +1,7 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ValueObject } from '@/core/entities/value-object'
 import dayjs from 'dayjs'
+import { Post } from '../posts'
 
 type followedUsers = {
   userId: UniqueEntityID
@@ -12,6 +13,7 @@ export interface UserWithFollowersAndPostsProps {
   ingressedAt: Date | string
   numberOfFollowers: number
   numberOfFolloweds: number
+  posts: Post[]
   numberOfPosts: number
   followedUsers: followedUsers
 }
@@ -47,6 +49,14 @@ export class UserWithFollowersAndPosts extends ValueObject<UserWithFollowersAndP
 
   set numberOfFolloweds(numberOfFolloweds: number) {
     this.props.numberOfFolloweds = numberOfFolloweds
+  }
+
+  get posts() {
+    return this.props.posts
+  }
+
+  set posts(posts: Post[]) {
+    this.props.posts = posts
   }
 
   get numberOfPosts() {

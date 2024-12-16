@@ -56,9 +56,12 @@ describe('get user use case', () => {
       followedUsersIds.push(user.id.toString())
     }
 
+    const postContent = 'content'
+
     for (let i = 0; i < 2; i++) {
       postsRepository.inMemoryPosts.push(
         makePost({
+          content: postContent,
           ownerId: userToFind.id,
         }),
       )
@@ -76,8 +79,9 @@ describe('get user use case', () => {
 
     expect(result.isLeft()).toBe(false)
     expect(result.isRight()).toBe(true)
-    result.isRight() && expect(result.value.name).toEqual(userToFind.name)
-    result.isRight() &&
+
+    if (result.isRight()) {
+      expect(result.value.name).toEqual(userToFind.name)
       expect(followedUsersIdsToCompare).toEqual([
         expect.objectContaining({
           userId: followedUsersIds[0],
@@ -86,9 +90,21 @@ describe('get user use case', () => {
           userId: followedUsersIds[1],
         }),
       ])
-    result.isRight() && expect(result.value.numberOfFolloweds).toEqual(2)
-    result.isRight() && expect(result.value.numberOfFollowers).toEqual(2)
-    result.isRight() && expect(result.value.numberOfPosts).toEqual(2)
+      expect(result.value.numberOfFolloweds).toEqual(2)
+      expect(result.value.numberOfFollowers).toEqual(2)
+      expect(result.value.numberOfPosts).toEqual(2)
+      expect(result.value.numberOfPosts).toEqual(2)
+      const postResult = result.value.posts.map((p) => ({
+        ownerId: p.ownerId.toString(),
+        content: p.content,
+      }))
+      expect(
+        result.value.posts.map((p) => ({
+          ownerId: p.ownerId.toString(),
+          content: p.content,
+        })),
+      ).toEqual(postResult)
+    }
   })
 
   it('should be able to throws UserNotFoundError when user not found', async () => {

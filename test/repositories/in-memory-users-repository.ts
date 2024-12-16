@@ -1,15 +1,15 @@
-import { PostsRepository } from '@/domain/feed/application/repositories/posts-repository'
 import { UsersRepository } from '@/domain/feed/application/repositories/users-repository'
 import { User } from '@/domain/feed/enterprise/entities/users'
 import { UserWithFollowersAndPosts } from '@/domain/feed/enterprise/entities/value-objects/user-with-followers-and-posts'
 import { InMemoryUsersFollowersRepository } from './in-memory-users-followers-repository'
+import { InMemoryPostsRepository } from './in-memory-posts-repository'
 
 export class InMemoryUsersRepository implements UsersRepository {
   public users: User[]
 
   constructor(
     private readonly usersFollowersRepository: InMemoryUsersFollowersRepository,
-    private readonly postsRepository: PostsRepository,
+    private readonly postsRepository: InMemoryPostsRepository,
   ) {
     this.users = []
   }
@@ -37,8 +37,8 @@ export class InMemoryUsersRepository implements UsersRepository {
       (userFollower) => userFollower.followerId.toString() === userId,
     )
 
-    const userPosts = await this.postsRepository.countPostsByOwnerId(
-      user.id.toString(),
+    const userPosts = this.postsRepository.inMemoryPosts.filter(
+      (post) => post.ownerId.toString() === userId,
     )
 
     const followedsIds = userFolloweds.map((followed) =>
@@ -57,7 +57,8 @@ export class InMemoryUsersRepository implements UsersRepository {
       ingressedAt: user.createdAt,
       numberOfFollowers: userFollowers.length,
       numberOfFolloweds: userFolloweds.length,
-      numberOfPosts: userPosts,
+      numberOfPosts: userPosts.length,
+      posts: userPosts,
       followedUsers: followedsInfo,
     })
   }
