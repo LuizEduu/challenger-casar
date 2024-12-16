@@ -11,5 +11,8 @@ export abstract class PostsRepository {
     { page }: PaginationParams,
   ): Promise<Post[]>
 
-  abstract countPostsByOwnerId(userId: string): Promise<number>
+  abstract fetchByOnwerId(
+    userId: string,
+    { page }: PaginationParams,
+  ): Promise<Post[]>
 }

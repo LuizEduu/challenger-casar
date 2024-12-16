@@ -60,9 +60,17 @@ export class InMemoryPostsRepository implements PostsRepository {
       .slice((page - 1) * 10, page * 10)
   }
 
-  async countPostsByOwnerId(userId: string): Promise<number> {
-    return this.inMemoryPosts.filter(
-      (post) => post.ownerId.toString() === userId,
-    ).length
+  async fetchByOnwerId(
+    userId: string,
+    { page }: PaginationParams,
+  ): Promise<Post[]> {
+    return this.inMemoryPosts
+      .filter((post) => userId === post.ownerId.toString())
+      .sort((a, b) => {
+        const dataA = dayjs(a.createdAt)
+        const dataB = dayjs(b.createdAt)
+        return dataB.isAfter(dataA) ? 1 : -1
+      })
+      .slice((page - 1) * 5, page * 5)
   }
 }
