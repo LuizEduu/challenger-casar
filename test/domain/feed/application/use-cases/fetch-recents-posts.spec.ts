@@ -33,7 +33,7 @@ describe('Fetch recents posts use case', () => {
 
     expect(posts.isLeft()).toBe(false)
     expect(posts.isRight()).toBe(true)
-    expect(posts.value?.length).toEqual(5)
+    expect(posts.value?.length).toEqual(10)
     expect(posts.value?.[0].content).toEqual('post 11')
   })
 
@@ -55,8 +55,8 @@ describe('Fetch recents posts use case', () => {
 
     expect(posts.isLeft()).toBe(false)
     expect(posts.isRight()).toBe(true)
-    expect(posts.value?.length).toEqual(5)
-    expect(posts.value?.[0].content).toEqual('post 15')
+    expect(posts.value?.length).toEqual(10)
+    expect(posts.value?.[0].content).toEqual('post 10')
   })
 
   it('should be able to return empty list when not have posts', async () => {

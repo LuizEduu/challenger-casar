@@ -44,7 +44,7 @@ describe('Fetch recent posts (E2E)', () => {
     const response = await request(app.getHttpServer()).get(`/posts`)
 
     expect(response.statusCode).toBe(200)
-    expect(response.body.posts.length).toEqual(5)
+    expect(response.body.posts.length).toEqual(10)
     expect(response.body).toEqual({
       posts: expect.arrayContaining([
         expect.objectContaining({ content: 'fake content 10' }),
@@ -56,7 +56,7 @@ describe('Fetch recent posts (E2E)', () => {
   test('[GET] /posts with pagination', async () => {
     await prisma.post.deleteMany()
     const user = await userFactory.makePrismaUser()
-    for (let i = 1; i <= 8; i++) {
+    for (let i = 1; i <= 13; i++) {
       await postsFactory.makePrismaPost({
         content: `fake content ${i}`,
         createdAt: dayjs()

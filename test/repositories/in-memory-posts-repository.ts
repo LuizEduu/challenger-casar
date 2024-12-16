@@ -43,7 +43,7 @@ export class InMemoryPostsRepository implements PostsRepository {
         const dataB = dayjs(b.createdAt)
         return dataB.isAfter(dataA) ? 1 : -1
       })
-      .slice((page - 1) * 5, page * 5)
+      .slice((page - 1) * 10, page * 10)
   }
 
   async fetchByUsersIds(

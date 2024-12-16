@@ -82,8 +82,8 @@ export class PrismaPostsRepository implements PostsRepository {
       orderBy: {
         createdAt: 'desc',
       },
-      take: 5,
-      skip: (page - 1) * 5,
+      take: 10,
+      skip: (page - 1) * 10,
     })
 
     return posts.map(PrismaPostMapper.toDomain)
