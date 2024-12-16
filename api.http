@@ -6,6 +6,42 @@ Content-Type: application/json
 
 {
     "content": "post test",
-    "ownerId": "12345"
+    "ownerId": "cm4r1tm56000008jvbf162vv2"
+}
+###
+
+# @name fetch_recent_posts
+GET {{baseUrl}}/posts
+Content-Type: application/json
+###
+
+# @name fetch_recent_followed_posts
+GET {{baseUrl}}/posts/followed/:userId
+Content-Type: application/json
+###
+
+# @name follower_or_unfollower
+POST {{baseUrl}}/followers
+Content-Type: application/json
+
+{
+    "follower": true,
+    "followerUserId": "cm4r1tm56000008jvbf162vv2",
+    "userId": "cm4r1zdzc000308jvfmjv0iif"
+}
+###
+
+# @name get_user
+GET {{baseUrl}}/users/:userId
+Content-Type: application/json
+###
+
+# @name repost
+POST {{baseUrl}}/posts/repost
+Content-Type: application/json
+
+{
+    "ownerId": "cm4r1tm56000008jvbf162vv2",
+    "originalPostId": "cm4r1z7f7000208jvelw12h8a",
 }
 ###
