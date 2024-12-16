@@ -20,6 +20,11 @@ GET {{baseUrl}}/posts/followed/:userId
 Content-Type: application/json
 ###
 
+# @name fetch_recent__posts_by_ownerId
+GET {{baseUrl}}/users/:userId/posts
+Content-Type: application/json
+###
+
 # @name follower_or_unfollower
 POST {{baseUrl}}/followers
 Content-Type: application/json
