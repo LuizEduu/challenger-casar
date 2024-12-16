@@ -49,14 +49,6 @@ export class PrismaPostsRepository implements PostsRepository {
     })
   }
 
-  async countPostsByOwnerId(userId: string): Promise<number> {
-    return this.prisma.post.count({
-      where: {
-        ownerId: userId,
-      },
-    })
-  }
-
   async fetchByUsersIds(
     usersIds: string[],
     { page }: PaginationParams,
@@ -84,6 +76,24 @@ export class PrismaPostsRepository implements PostsRepository {
       },
       take: 10,
       skip: (page - 1) * 10,
+    })
+
+    return posts.map(PrismaPostMapper.toDomain)
+  }
+
+  async fetchByOnwerId(
+    userId: string,
+    { page }: PaginationParams,
+  ): Promise<Post[]> {
+    const posts = await this.prisma.post.findMany({
+      where: {
+        ownerId: userId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 5,
+      skip: (page - 1) * 5,
     })
 
     return posts.map(PrismaPostMapper.toDomain)

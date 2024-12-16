@@ -134,33 +134,6 @@ describe('PrismaPostsRepository', () => {
     expect(count).toBe(3)
   })
 
-  it('should count posts by owner ID', async () => {
-    const owner = await prisma.user.create({
-      data: {
-        name: 'owner',
-      },
-    })
-
-    await prisma.post.createMany({
-      data: [
-        {
-          ownerId: owner.id,
-          content: 'Post A',
-          createdAt: new Date(),
-        },
-        {
-          ownerId: owner.id,
-          content: 'Post B',
-          createdAt: new Date(),
-        },
-      ],
-    })
-
-    const count = await postsRepository.countPostsByOwnerId(owner.id)
-
-    expect(count).toBe(2)
-  })
-
   it('should fetch posts by multiple user IDs with pagination', async () => {
     const user1 = await prisma.user.create({
       data: {
@@ -227,5 +200,36 @@ describe('PrismaPostsRepository', () => {
     const posts = await postsRepository.fetchRecentsPosts({ page: 2 })
 
     expect(posts.length).toBeGreaterThanOrEqual(5)
+  })
+
+  it('should be able  to fetch recent posts by ownerId', async () => {
+    const user = await prisma.user.create({
+      data: {
+        name: 'user1',
+      },
+    })
+
+    const postsToSave: any = []
+
+    for (let i = 1; i <= 15; i++) {
+      postsToSave.push({
+        ownerId: user.id,
+        content: `post ${i}`,
+        createdAt: dayjs()
+          .add(i * 1000, 'seconds')
+          .toDate(),
+      })
+    }
+
+    await prisma.post.createMany({
+      data: postsToSave,
+    })
+
+    const posts = await postsRepository.fetchByOnwerId(user.id, {
+      page: 1,
+    })
+
+    expect(posts).toHaveLength(5)
+    expect(posts[0].content).toEqual('post 15')
   })
 })

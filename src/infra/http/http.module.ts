@@ -13,6 +13,8 @@ import { FetchRecentsFollowedPostsController } from './controllers/fetch-recents
 import { FetchRecentsFollowedPostsUseCase } from '@/domain/feed/application/use-cases/fetch-recents-followed-posts'
 import { GetUserController } from './controllers/get-user.controller'
 import { GetUserUseCase } from '@/domain/feed/application/use-cases/get-user'
+import { FetchPostsByOwnerIdController } from './controllers/fetch-posts-by-owner-id.controller'
+import { FetchPostsByOwnerIdUseCase } from '@/domain/feed/application/use-cases/fetch-posts-by-owner-id'
 
 @Module({
   controllers: [
@@ -23,6 +25,7 @@ import { GetUserUseCase } from '@/domain/feed/application/use-cases/get-user'
     RepostController,
     FetchRecentsFollowedPostsController,
     GetUserController,
+    FetchPostsByOwnerIdController,
   ],
   providers: [
     CreatePostUseCase,
@@ -31,6 +34,7 @@ import { GetUserUseCase } from '@/domain/feed/application/use-cases/get-user'
     RepostUseCase,
     FetchRecentsFollowedPostsUseCase,
     GetUserUseCase,
+    FetchPostsByOwnerIdUseCase,
   ],
   imports: [DatabaseModule],
 })
