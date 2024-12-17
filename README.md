@@ -35,7 +35,7 @@ A arquitetura escolhida é a **Clean Architecture**, que visa desacoplar as dife
 
 - **Clean Architecture**: Utilizei esse padrão para ter maior controle sobre a organização do código e liberdade para implementar os casos de uso de maneira isolada, sem depender diretamente de detalhes de implementação como banco de dados ou frameworks.
 
-- **PostgreSQL e Prisma**: Optamos por essas tecnologias devido ao nosso maior domínio sobre elas, mas reconhecemos que para um sistema de grande escala, pode não ser a melhor escolha para gerenciar todas as funcionalidades. Em uma versão mais robusta do sistema, outras soluções de banco e até mesmo realizar as consultas SQL puras/na mão poderiam ser consideradas.
+- **PostgreSQL e Prisma**: optei por essas tecnologias devido ao nosso maior domínio sobre elas, mas reconhecemos que para um sistema de grande escala, pode não ser a melhor escolha para gerenciar todas as funcionalidades. Em uma versão mais robusta do sistema, outras soluções de banco e até mesmo realizar as consultas SQL puras/na mão poderiam ser consideradas.
   Um dos problemas que tive com o prisma foi justamente para realizar uma consulta mais complexa com joins entre outras tabelas, tive problemas e optei por separar em mais de uma consulta, na minha opinião é um ponto negativo, tanto para manutenabilidade e principalmente para performance
 
 - **Docker**: A infraestrutura é gerida por meio de Docker, com o Nginx atuando como **load balancer** e **proxy reverso**, distribuindo as requisições para duas instâncias da aplicação Node. Essa abordagem facilita a escalabilidade e a gestão do sistema em produção.
